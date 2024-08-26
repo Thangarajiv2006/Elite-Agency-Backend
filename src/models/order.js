@@ -32,9 +32,9 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "shops",
     },
-    pdf: {
-      type: String,
-      required: true,
+    invoiceNo: {
+      type: Number,
+      default: Date.now(),
     },
   },
   {

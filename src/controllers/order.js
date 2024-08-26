@@ -20,41 +20,6 @@ exports.createOrder = async (req, res) => {
       .status(200)
       .json({ errorCode: 99, errorMessage: "Pealse Fill Quentities" });
   }
-  const shop = await shopData.findById(req.body.shop);
-  let products = [];
-  for (let i = 0; i < req.body.orderedProducts.length; i++) {
-    const element = req.body.orderedProducts[i];
-    let product = await productData.findById(element.product);
-
-    const data = {
-      ...product,
-      free: parseInt(element.free),
-      quentity: parseInt(element.quentity),
-      discount: parseInt(element.discount),
-    };
-    products.push(data);
-  }
-
-  let location = `${shop.shopName}${short.generate()}`;
-  let isCreated = false;
-
-  const html = billLayout(req.agencyDetails, shop, products);
-  await generatePDF(html, location)
-    .then(() => {
-      isCreated = false;
-    })
-    .catch((err) => {
-      console.log(err);
-      return res
-        .status(200)
-        .json({ errorCode: 100, errorMessage: "Sorry Something went wrong!" });
-    });
-
-  if (isCreated) {
-    return res
-      .status(200)
-      .json({ errorCode: 100, errorMessage: "Sorry Something went wrong!" });
-  }
 
   let product = [];
   for (let i = 0; i < req.body.orderedProducts.length; i++) {
@@ -71,7 +36,6 @@ exports.createOrder = async (req, res) => {
     orderedProducts: product,
     createdBy: req.agencyDetails._id,
     shop: req.body.shop,
-    pdf: location,
   };
 
   const createdOrder = await (

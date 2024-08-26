@@ -1,13 +1,3 @@
-const crypto = require("crypto");
-
-function generateUnique6DigitNumber() {
-  const hash = crypto
-    .createHash("sha256")
-    .update(Date.now().toString())
-    .digest("hex");
-  return (Number(hash.slice(0, 6)) % 900000) + 100000; // Ensure it's 6 digits
-}
-
 function formatDateToDDMMYYYY(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-based
