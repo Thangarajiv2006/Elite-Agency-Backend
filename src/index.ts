@@ -42,6 +42,10 @@ import analyticsRouter from "./routes/analytics.route";
 import attendanceRouter from "./routes/attendance.route";
 import aiRouter from "./routes/ai.route";
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the API");
+});
+
 //routes
 app.use("/api/auth", authRouter);
 app.use("/api/worker", workerRouter);
